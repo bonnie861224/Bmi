@@ -28,10 +28,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-    ;
-
-
     public void bmi(View view) {
      /*System.out.println("what???"); 用android monitor可以看到這行有被執行
          Log.wtf()    全名what a terrible failure*/
@@ -43,14 +39,19 @@ public class MainActivity extends AppCompatActivity {
         float weight = Float.parseFloat(edWeight.getText().toString());
         float height = Float.parseFloat(edHeight.getText().toString());
         float bmi = weight / (height * height);
-        if (bmi < 20) {
+        if (height > 3) {
+            new AlertDialog.Builder(this)
+                    .setMessage("身高單位應為公尺")
+                    .setTitle(R.string.bmi_title)
+                    .setPositiveButton(R.string.ok, null)
+                    .show();
+        }else if (bmi < 20) {
             new AlertDialog.Builder(this)
                     .setMessage(getString(R.string.your_bmi_is) + bmi + "請多吃點")
                     .setTitle(R.string.bmi_title)
                     .setPositiveButton(R.string.ok, null)
                     .show();
-        } else {
-
+        }else {
             new AlertDialog.Builder(this)
                     .setMessage(getString(R.string.your_bmi_is) + bmi)
                     .setTitle(R.string.bmi_title)
