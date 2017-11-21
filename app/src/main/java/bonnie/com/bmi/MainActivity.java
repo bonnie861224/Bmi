@@ -1,5 +1,7 @@
 package bonnie.com.bmi;
 
+import android.content.Intent;
+import android.support.annotation.StyleRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,14 +12,16 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+    private EditText edHeight;
+    private EditText edWeight;
+    private Button bHelp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        findViews();
         getResources().getString(R.string.app_name);
-        Button bHelp = (Button) findViewById(R.id.b_help);
         bHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -28,18 +32,54 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    private void findViews() {
+        edHeight = (EditText) findViewById(R.id.ed_height);
+        edWeight = (EditText) findViewById(R.id.ed_weight);
+        bHelp = (Button) findViewById(R.id.b_help);
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("MainActivity","onPause");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("MainActivity","onResume");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("MainActivity","onStart");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("MainActivity","onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("MainActivity","onDestroy");
+    }
+
     public void bmi(View view) {
      /*System.out.println("what???"); 用android monitor可以看到這行有被執行
          Log.wtf()    全名what a terrible failure*/
         Log.d("MainActivity", "testing bmi method");  //除錯
-        EditText edWeight = (EditText) findViewById(R.id.ed_weight);
-        EditText edHeight = (EditText) findViewById(R.id.ed_height);
      /*String s = edWeight.getText().toString();
          float weight = Float.parseFloat(s); 22,23可以變24*/
         float weight = Float.parseFloat(edWeight.getText().toString());
         float height = Float.parseFloat(edHeight.getText().toString());
         float bmi = weight / (height * height);
-        if (height > 3) {
+        Intent intent = new Intent(this,ResultActivity.class);
+        intent.putExtra(getString(R.string.extra_bmi),bmi);
+        startActivity(intent);
+       /* if (height > 3) {
             new AlertDialog.Builder(this)
                     .setMessage("身高單位應為公尺")
                     .setTitle(R.string.bmi_title)
@@ -58,9 +98,11 @@ public class MainActivity extends AppCompatActivity {
                     .setPositiveButton(R.string.ok, null)
                     .show();
 
+    }*/
      /*   Log.d("MainActivity","Your BMI is "+bmi);
         Toast.makeText(this, "Your BMI is"+bmi,  Toast.LENGTH_LONG).show();*/
-        }
+
     }
 }
+
 
